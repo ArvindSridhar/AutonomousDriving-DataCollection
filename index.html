@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Collecting Data</title>
+    <link rel="stylesheet" type="text/css" href="app.css">
+</head>
+<body>
+    <div class="greeting">
+        <h2>Welcome to UC Berkeley's DeepDrive Research Experiment</h2>
+        <p>Take a look as we play the following video, pretending as if you are driving the car. If you perceive a dangerous situation, click on the red button; we will take a note of which frame that scenario corresponds to. This will help us greatly in our study at the Whitney Laboratory here at UC Berkeley Psychology!</p>
+        <p><i>Loosely speaking, a "dangerous situation" is defined as one where you, as the driver, feel you need to take immediate action in order to avoid an accident</i></p>
+    </div>
+    <div style="text-align:center;"><button class="begin" onclick="startVid()">Start Video</button></div>
+    
+    <div class="video">
+        <video id="video" width="560" height="315" controls="controls">
+            <source src="driving.mp3" type="">
+        </video>
+    </div>
+    
+<!--    <div class="video"><iframe id="video" width="560" height="315" src="https://www.youtube.com/embed/wooe5niJi9c?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media"></iframe></div>-->
+    
+    <script type="text/javascript">
+        function startVid() {
+            alert(this.currentTime);
+            var vid = document.getElementById("video");
+            vid.play();
+        }
+    </script>
+</body>
+</html>
