@@ -10,21 +10,37 @@
         <p>Take a look as we play the following video, pretending as if you are driving the car. If you perceive a dangerous situation, click on the red button; we will take a note of which frame that scenario corresponds to. This will help us greatly in our study at the Whitney Laboratory here at UC Berkeley Psychology!</p>
         <p><i>Loosely speaking, a "dangerous situation" is defined as one where you, as the driver, feel you need to take immediate action in order to avoid an accident</i></p>
     </div>
-    <div style="text-align:center;"><button class="begin" onclick="startVid()">Start Video</button></div>
+    <div style="text-align:center;"><button id="begin" class="begin" onclick="startVid()">Start Video</button></div>
     
     <div class="video">
-        <video id="video" width="560" height="315" controls="controls">
-            <source src="driving.mp3" type="">
+        <video id="video" width="560" height="315">
+            <source src="driving.mp4" type="video/mp4">
         </video>
     </div>
+    
+    <div style="text-align:center;"><button class="danger" onclick="logClick()">Click if Danger Scenario Observed</button></div>
+    <div style="text-align:center; white-space: pre-wrap;" id="clickLog"></div>
+<!--    <div style="text-align:center;"><button class="danger" onclick="logClick2()">Random</button></div>-->
     
 <!--    <div class="video"><iframe id="video" width="560" height="315" src="https://www.youtube.com/embed/wooe5niJi9c?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media"></iframe></div>-->
     
     <script type="text/javascript">
+        var seconds = 0;
+        var dangerLogs = [];
+        var duration = 0;
         function startVid() {
-            alert(this.currentTime);
+            seconds = new Date().getTime() / 1000;
             var vid = document.getElementById("video");
+            duration = vid.duration;
+            document.getElementById("begin").textContent = "Video has begun...enjoy!";
             vid.play();
+        }
+        function logClick() {
+            var seconds2 = new Date().getTime() / 1000;
+            var secondsElapsed = seconds2 - seconds;
+            var text = "<p>Click at " + Math.round(secondsElapsed * 100) / 100 + " seconds</p>";
+            document.getElementById("clickLog").innerHTML = text + document.getElementById("clickLog").innerHTML;
+            dangerLogs.push(secondsElapsed);
         }
     </script>
 </body>
