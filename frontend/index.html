@@ -3,18 +3,19 @@
 <head>
     <title>Collecting Data</title>
     <link rel="stylesheet" type="text/css" href="app.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
     <div class="greeting">
         <h2>Welcome to UC Berkeley's DeepDrive Research Experiment</h2>
-        <p>Take a look as we play the following video, pretending as if you are driving the car. If you perceive a dangerous situation, click on the red button; we will take a note of which frame that scenario corresponds to. This will help us greatly in our study at the Whitney Laboratory here at UC Berkeley Psychology!</p>
+        <p>Take a look as we play the following video, pretending as if you are driving the car. If you perceive a dangerous situation, click on the red button; we will take a note of which frame that scenario corresponds to. This will help us greatly in our autonomous driving research study at the Whitney Laboratory here at UC Berkeley!</p>
         <p><i>Loosely speaking, a "dangerous situation" is defined as one where you, as the driver, feel you need to take immediate action in order to avoid an accident</i></p>
     </div>
     <div style="text-align:center;"><button id="begin" class="begin" onclick="startVid()">Start Video</button></div>
     
     <div class="video">
         <video id="video" width="560" height="315">
-            <source src="driving.mp4" type="video/mp4">
+            <source src="driving2.mp4" type="video/mp4">
         </video>
     </div>
     
@@ -27,13 +28,14 @@
     <script type="text/javascript">
         var seconds = 0;
         var dangerLogs = [];
-        var duration = 0;
+        var duration = 1000;
         function startVid() {
-            seconds = new Date().getTime() / 1000;
             var vid = document.getElementById("video");
             duration = vid.duration;
             document.getElementById("begin").textContent = "Video has begun...enjoy!";
+            seconds = new Date().getTime() / 1000;
             vid.play();
+            vid.addEventListener('ended', endVid, false);
         }
         function logClick() {
             var seconds2 = new Date().getTime() / 1000;
@@ -41,6 +43,14 @@
             var text = "<p>Click at " + Math.round(secondsElapsed * 100) / 100 + " seconds</p>";
             document.getElementById("clickLog").innerHTML = text + document.getElementById("clickLog").innerHTML;
             dangerLogs.push(secondsElapsed);
+        }
+        function endVid(e) {
+            $.ajax({
+            type: 'GET',
+            data: {"name": JSON.stringify(dangerLogs)},
+            url: 'http://localhost:3000/send',
+            success: function(data) {
+                alert('Thank you for completing this experiment! Your data has been saved, and will help us tremendously in building our models. Feel free to close this tab.');}});
         }
     </script>
 </body>
