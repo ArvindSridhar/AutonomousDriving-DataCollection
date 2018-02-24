@@ -15,11 +15,11 @@
     
     <div class="video">
         <video id="video" width="560" height="315">
-            <source src="driving2.mp4" type="video/mp4">
+            <source src="driving.mp4" type="video/mp4">
         </video>
     </div>
     
-    <div style="text-align:center;"><button class="danger" onclick="logClick()">Click if Danger Scenario Observed</button></div>
+    <div style="text-align:center;"><button class="danger" id="danger">Hit Spacebar if Danger Scenario Observed</button></div>
     <div style="text-align:center; white-space: pre-wrap;" id="clickLog"></div>
 <!--    <div style="text-align:center;"><button class="danger" onclick="logClick2()">Random</button></div>-->
     
@@ -29,29 +29,50 @@
         var seconds = 0;
         var dangerLogs = [];
         var duration = 1000;
+        var vidStarted = false;
         function startVid() {
-            var vid = document.getElementById("video");
-            duration = vid.duration;
-            document.getElementById("begin").textContent = "Video has begun...enjoy!";
-            seconds = new Date().getTime() / 1000;
-            vid.play();
-            vid.addEventListener('ended', endVid, false);
+            if (!vidStarted) {
+                var vid = document.getElementById("video");
+                duration = vid.duration;
+                document.getElementById("begin").textContent = "Video has begun...enjoy!";
+                vid.play();
+                seconds = new Date().getTime() / 1000; //double check if this still is accurate when video has to load for 2+ sec
+                vid.addEventListener('ended', endVid, false);
+                vidStarted = true;
+            }
         }
-        function logClick() {
-            var seconds2 = new Date().getTime() / 1000;
-            var secondsElapsed = seconds2 - seconds;
-            var text = "<p>Click at " + Math.round(secondsElapsed * 100) / 100 + " seconds</p>";
-            document.getElementById("clickLog").innerHTML = text + document.getElementById("clickLog").innerHTML;
-            dangerLogs.push(secondsElapsed);
+//        function logClick() {
+//            var seconds2 = new Date().getTime() / 1000;
+//            var secondsElapsed = seconds2 - seconds;
+//            var text = "<p>Click at " + Math.round(secondsElapsed * 100) / 100 + " seconds</p>";
+//            document.getElementById("clickLog").innerHTML = text + document.getElementById("clickLog").innerHTML;
+//            dangerLogs.push(secondsElapsed);
+//        }
+        document.body.onkeyup = function(e){
+            if(e.keyCode == 32){
+                if (vidStarted) {
+                    var seconds2 = new Date().getTime() / 1000;
+                    var secondsElapsed = seconds2 - seconds;
+                    var text = "<p>Click at " + Math.round(secondsElapsed * 100) / 100 + " seconds</p>";
+                    document.getElementById("clickLog").innerHTML = text + document.getElementById("clickLog").innerHTML;
+                    dangerLogs.push(secondsElapsed);
+                }
+            }
         }
         function endVid(e) {
+            vidStarted = false;
             $.ajax({
             type: 'GET',
-            data: {"name": JSON.stringify(dangerLogs)},
+            data: {"name": JSON.stringify(dangerLogs), "url": "driving2.mp4"},
             url: 'http://localhost:3000/send',
             success: function(data) {
                 alert('Thank you for completing this experiment! Your data has been saved, and will help us tremendously in building our models. Feel free to close this tab.');}});
         }
+        window.addEventListener('keydown', function(e) {
+          if(e.keyCode == 32 && e.target == document.body) {
+            e.preventDefault();
+          }
+        });
     </script>
 </body>
 </html>
