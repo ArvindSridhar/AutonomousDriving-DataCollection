@@ -15,8 +15,11 @@
     
     <div class="video">
         <video id="video" width="560" height="315">
-            <source src="driving.mp4" type="video/mp4">
+            <source src="driving2.mp4" type="video/mp4">
         </video>
+    </div>
+    
+    <div class="thanks">
     </div>
     
     <div style="text-align:center;"><button class="danger" id="danger">Hit Spacebar if Danger Scenario Observed</button></div>
@@ -65,8 +68,14 @@
             type: 'GET',
             data: {"name": JSON.stringify(dangerLogs), "url": "driving2.mp4"},
             url: 'http://localhost:3000/send',
-            success: function(data) {
-                alert('Thank you for completing this experiment! Your data has been saved, and will help us tremendously in building our models. Feel free to close this tab.');}});
+            success: function(data) {                
+                document.getElementsByClassName("video")[0].style.display = "none";
+                x = document.getElementsByClassName("thanks")[0];
+                x.style.display = "block";
+                x.innerHTML = "<h3>Your unique id: " + data + "</h3>";
+                /*alert(data);
+                alert('Thank you for completing this experiment! Your data has been saved, and will help us tremendously in building our models. Feel free to close this tab.');*/
+            }});
         }
         window.addEventListener('keydown', function(e) {
           if(e.keyCode == 32 && e.target == document.body) {
