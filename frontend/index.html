@@ -28,6 +28,8 @@
     
 <!--    <div class="video"><iframe id="video" width="560" height="315" src="https://www.youtube.com/embed/wooe5niJi9c?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media"></iframe></div>-->
     
+    <div class="bottom"><p>Created by Arvind Sridhar and Ye Xia at UC Berkeley's Whitney Laboratory. Email for questions/concerns: arvindsridhar@berkeley.edu</p></div>
+    
     <script type="text/javascript">
         var seconds = 0;
         var dangerLogs = [];
@@ -63,7 +65,7 @@
             }
         }
         function endVid(e) {
-            vidStarted = false;
+            //vidStarted = false;
             $.ajax({
             type: 'GET',
             data: {"name": JSON.stringify(dangerLogs), "url": "driving2.mp4"},
@@ -72,7 +74,7 @@
                 document.getElementsByClassName("video")[0].style.display = "none";
                 x = document.getElementsByClassName("thanks")[0];
                 x.style.display = "block";
-                x.innerHTML = "<h3>Your unique id: " + data + "</h3>";
+                x.innerHTML = "<p style='margin-top: 3%'>Thank you so much for completing this experiment!</p><p style='font-weight: bold'>Your unique ID to note down: " + data + "</p><p>Your data has been saved, and will help us tremendously in building our models. Feel free to close this tab.</p>";
                 /*alert(data);
                 alert('Thank you for completing this experiment! Your data has been saved, and will help us tremendously in building our models. Feel free to close this tab.');*/
             }});
