@@ -19,7 +19,7 @@ body {
 
 button.begin {
     margin: auto;
-    margin-top: 1%;
+    margin-top: 1.5%;
     background-color: #ff6600;
     padding: 1%;
     border-radius: 4px;
@@ -27,6 +27,18 @@ button.begin {
     color: white;
     font-weight: bold;
     font-size: 15px;
+}
+
+#affirm {
+    background-color: #009dcd;
+    cursor: pointer;
+}
+
+#deny {
+    background-color: #ff0000;
+    margin-top: 1%;
+    margin-bottom: 7%;
+    cursor: pointer;
 }
 
 button.danger {
@@ -52,4 +64,32 @@ button.danger {
     bottom: 0;
     text-align: center;
     width: 89%;
+}
+
+.greyed {
+    background-color: lightgrey;
+    border-radius: 16px;
+    padding: 0.7% 2% 0.7% 2%;
+    width: 60%;
+    margin: auto;
+    margin-top: 2%;
+    margin-bottom: 1.5%;
+}
+
+.welcome {
+    text-align: center;
+    margin-top: 3%;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 9%;
+}
+
+#proceed {
+    background-color: #009dcd;
+    margin-top: 1%;
+    cursor: pointer;
 }
