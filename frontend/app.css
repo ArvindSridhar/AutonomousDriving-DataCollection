@@ -88,6 +88,11 @@ button.danger {
     margin-top: 9%;
 }
 
+.instructions {
+    text-align: center;
+    margin-top: 13%;
+}
+
 #proceed {
     background-color: #009dcd;
     margin-top: 1%;

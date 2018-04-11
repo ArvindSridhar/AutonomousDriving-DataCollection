@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Danger Detection Experiment</title>
+    <link rel="stylesheet" type="text/css" href="app.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+    <div class="instructions">
+        <h2>Instructions</h2>
+        <p>Take a look as we play the following video, pretending as if you are driving the car. If you perceive a dangerous situation, click on the red button (or hit the space bar); we will take a note of which part of the video that scenario corresponds to. This will help us greatly in our autonomous driving research study at the Whitney Laboratory here at UC Berkeley!</p>
+        <p><i><strong>Loosely speaking, a "dangerous situation" is defined as one where you, as the driver, feel you need to take immediate action in order to avoid an accident</strong></i></p>
+        <p>Today, you will watch a total of 10 videos, each approximately 10 seconds long.</p>
+        <div style="text-align:center;"><button id="proceed" class="begin" onclick="goToExperiment()">Begin Experiment</button></div>
+    </div>
+    <script type="text/javascript">
+        function goToExperiment() {
+            window.location.replace("experiment.html");
+        }
+    </script>
+</body>
+</html>
