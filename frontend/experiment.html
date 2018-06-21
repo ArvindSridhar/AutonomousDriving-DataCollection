@@ -37,8 +37,9 @@
         var dangerLogs = [];
         var duration = 1000;
         var vidStarted = false;
+        var numTimesPlayed = 0;
         function startVid() {
-            if (!vidStarted) {
+            if (!vidStarted && numTimesPlayed == 0) {
                 var vid = document.getElementById("video");
                 duration = vid.duration;
                 document.getElementById("begin").textContent = "Video has begun...enjoy!";
@@ -67,7 +68,8 @@
             }
         }
         function endVid(e) {
-            //vidStarted = false;
+            vidStarted = false;
+            numTimesPlayed++;
             $.ajax({
             type: 'GET',
             data: {"name": JSON.stringify(dangerLogs), "url": "driving2.mp4"},
