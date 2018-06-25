@@ -21,7 +21,7 @@ app.get('/send', function(req, res) {
     MongoClient.connect(url, function(err, client) {
         //assert.equals(err, null);
         //console.log("Connected successfully to server");
-        var myobj = { name: video, clickLogs: data };
+        var myobj = { vidURL: video, clickLogs: data };
         const db = client.db(dbName);
         db.collection("timestamps").insertOne(myobj, function(err, res2) {
             //assert.equals(err, null);

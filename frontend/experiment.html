@@ -4,20 +4,17 @@
     <title>Danger Detection Experiment</title>
     <link rel="stylesheet" type="text/css" href="app.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
 </head>
 <body>
+    <div ng-app="myApp" ng-controller="myCtrl">
     <div class="greeting">
-        <h2>Video 1/10</h2>
-<!--
-        <p>Take a look as we play the following video, pretending as if you are driving the car. If you perceive a dangerous situation, click on the red button (or hit the space bar); we will take a note of which part of the video that scenario corresponds to. This will help us greatly in our autonomous driving research study at the Whitney Laboratory here at UC Berkeley!</p>
-        <p><i>Loosely speaking, a "dangerous situation" is defined as one where you, as the driver, feel you need to take immediate action in order to avoid an accident</i></p>
--->
+        <h2>Video {{videoNum}}/10</h2>
     </div>
     <div style="text-align:center;"><button id="begin" class="begin" onclick="startVid()">Start Video</button></div>
     
     <div class="video">
-        <video id="video" width="560" height="315">
-            <source src="driving2.mp4" type="video/mp4">
+        <video src="{{videoURL}}" type="video/mp4" id="video" width="560" height="315">
         </video>
     </div>
     
@@ -26,9 +23,7 @@
     
     <div style="text-align:center;"><button class="danger" id="danger">Hit Spacebar if Danger Scenario Observed</button></div>
     <div style="text-align:center; white-space: pre-wrap;" id="clickLog"></div>
-<!--    <div style="text-align:center;"><button class="danger" onclick="logClick2()">Random</button></div>-->
-    
-<!--    <div class="video"><iframe id="video" width="560" height="315" src="https://www.youtube.com/embed/wooe5niJi9c?rel=0&amp;showinfo=0" frameborder="0" allow="autoplay; encrypted-media"></iframe></div>-->
+    </div>
     
     <div class="bottom"><p>Created by Arvind Sridhar and Ye Xia at UC Berkeley's Whitney Laboratory. Email for questions/concerns: <a href="mailto:arvindsridhar@berkeley.edu" style="color: black">arvindsridhar@berkeley.edu</a></p></div>
     
@@ -37,6 +32,7 @@
         var dangerLogs = [];
         var duration = 1000;
         var vidStarted = false;
+        var canClick = false;
         function startVid() {
             if (!vidStarted) {
                 var vid = document.getElementById("video");
@@ -46,18 +42,12 @@
                 seconds = new Date().getTime() / 1000; //double check if this still is accurate when video has to load for 2+ sec
                 vid.addEventListener('ended', endVid, false);
                 vidStarted = true;
+                canClick = true;
             }
         }
-//        function logClick() {
-//            var seconds2 = new Date().getTime() / 1000;
-//            var secondsElapsed = seconds2 - seconds;
-//            var text = "<p>Click at " + Math.round(secondsElapsed * 100) / 100 + " seconds</p>";
-//            document.getElementById("clickLog").innerHTML = text + document.getElementById("clickLog").innerHTML;
-//            dangerLogs.push(secondsElapsed);
-//        }
         document.body.onkeyup = function(e){
             if(e.keyCode == 32){
-                if (vidStarted) {
+                if (canClick) {
                     var seconds2 = new Date().getTime() / 1000;
                     var secondsElapsed = seconds2 - seconds;
                     var text = "<p>Click at " + Math.round(secondsElapsed * 100) / 100 + " seconds</p>";
@@ -67,10 +57,10 @@
             }
         }
         function endVid(e) {
-            //vidStarted = false;
+            canClick = false;
             $.ajax({
             type: 'GET',
-            data: {"name": JSON.stringify(dangerLogs), "url": "driving2.mp4"},
+            data: {"name": JSON.stringify(dangerLogs), "url": document.getElementById("video").src},
             url: 'http://localhost:3000/send',
             success: function(data) {                
                 document.getElementsByClassName("video")[0].style.display = "none";
@@ -86,6 +76,8 @@
             e.preventDefault();
           }
         });
+        var app = angular.module('myApp', []);
     </script>
+    <script src="myCtrl.js"></script>
 </body>
 </html>
